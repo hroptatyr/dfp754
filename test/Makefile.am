@@ -53,4 +53,16 @@ scalbnd64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 scalbnd64_01_LDADD = $(top_builddir)/src/libdfp754.a
 TESTS += scalbnd64_01
 
+check_PROGRAMS += quantized32_01
+quantized32_01_SOURCES = quantized32_01.c
+quantized32_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+quantized32_01_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += quantized32_01
+
+check_PROGRAMS += quantized64_01
+quantized64_01_SOURCES = quantized64_01.c
+quantized64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+quantized64_01_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += quantized64_01
+
 ## Makefile.am ends here
