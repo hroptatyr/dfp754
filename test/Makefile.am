@@ -41,4 +41,10 @@ pr_d64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 pr_d64_01_LDADD = $(top_builddir)/src/libdfp754.a
 TESTS += pr-d64_01
 
+check_PROGRAMS += scalbnd64_01
+scalbnd64_01_SOURCES = scalbnd64_01.c
+scalbnd64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+scalbnd64_01_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += scalbnd64_01
+
 ## Makefile.am ends here
