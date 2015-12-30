@@ -671,7 +671,7 @@ bid64tostr(char *restrict buf, size_t bsz, _Decimal64 x)
 }
 #elif defined HAVE_DFP754_DPD_LITERALS
 static int
-dpd64tostr(char *restrict buf, size_t UNUSED(bsz), _Decimal64 x)
+dpd64tostr(char *restrict buf, size_t bsz, _Decimal64 x)
 {
 /* d64s look like s??eeeeeeee mm..53..mm
  * and the decimal is (-1 * s) * m * 10^(e - 398),
