@@ -467,7 +467,7 @@ bcd64tostr(char *restrict buf, size_t bsz, uint_least64_t mant, int e, int s)
 static _Decimal64
 quantizebid64(_Decimal64 x, _Decimal64 r)
 {
-/* d64s look like s??eeeeee mm..23..mm
+/* d64s look like s??eeeeeeee mm..53..mm
  * and the decimal is (-1 * s) * m * 10^(e - 101),
  * this implementation is very minimal serving only the cattle use cases */
 	int er;
@@ -496,7 +496,7 @@ quantizebid64(_Decimal64 x, _Decimal64 r)
 static _Decimal64
 quantizedpd64(_Decimal64 x, _Decimal64 r)
 {
-/* d64s dpds look like s??ttteeeeee mm..20..mm
+/* d64s dpds look like s??ttteeeeeeee mm..50..mm
  * this implementation is very minimal serving only the cattle use cases */
 	int er;
 	int ex;
@@ -512,13 +512,13 @@ quantizedpd64(_Decimal64 x, _Decimal64 r)
 	/* unpack the declets and TTT, TTT first, then MH, then ML */
 	b = (m & 0x3c000000000000ULL);
 	b >>= 8U;
+	b ^= unpack_declet((m >> 40U) & 0x3ffU);
+	b <<= 12U;
+	b ^= unpack_declet((m >> 30U) & 0x3ffU);
+	b <<= 12U;
+	b ^= unpack_declet((m >> 20U) & 0x3ffU);
+	b <<= 12U;
 	b ^= unpack_declet((m >> 10U) & 0x3ffU);
-	b <<= 12U;
-	b ^= unpack_declet((m >> 0U) & 0x3ffU);
-	b <<= 12U;
-	b ^= unpack_declet((m >> 0U) & 0x3ffU);
-	b <<= 12U;
-	b ^= unpack_declet((m >> 0U) & 0x3ffU);
 	b <<= 12U;
 	b ^= unpack_declet((m >> 0U) & 0x3ffU);
 
