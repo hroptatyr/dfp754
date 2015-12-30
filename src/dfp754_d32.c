@@ -288,16 +288,16 @@ assemble_bid(uint32_t m, uint32_t ex, uint32_t s)
 
 	/* check if 24th bit of mantissa is set */
 	if (UNLIKELY(m & (1U << 23U))) {
-		u |= 0b11U << 29U;
-		u |= ex << 21U;
+		u ^= 0b11U << 29U;
+		u ^= ex << 21U;
 		/* just use 21 bits of the mantissa */
 		m &= 0x1fffffU;
 	} else {
-		u |= ex << 23U;
+		u ^= ex << 23U;
 		/* use all 23 bits */
 		m &= 0x7fffffU;
 	}
-	u |= m;
+	u ^= m;
 	return bobs32(u);
 }
 
@@ -308,9 +308,9 @@ bcd32tobid(bcd32_t b)
 
 	/* massage the mantissa, first mirror it, so the most significant
 	 * nibble is the lowest */
-	b.mant = (b.mant & 0xffff0000U) >> 16U | (b.mant & 0x0000ffffU) << 16U;
-	b.mant = (b.mant & 0xff00ff00U) >> 8U | (b.mant & 0x00ff00ffU) << 8U;
-	b.mant = (b.mant & 0xf0f0f0f0U) >> 4U | (b.mant & 0x0f0f0f0fU) << 4U;
+	b.mant = (b.mant & 0xffff0000U) >> 16U ^ (b.mant & 0x0000ffffU) << 16U;
+	b.mant = (b.mant & 0xff00ff00U) >> 8U ^ (b.mant & 0x00ff00ffU) << 8U;
+	b.mant = (b.mant & 0xf0f0f0f0U) >> 4U ^ (b.mant & 0x0f0f0f0fU) << 4U;
 	b.mant >>= 4U;
 	for (size_t i = 7U; i > 0U; b.mant >>= 4U, i--) {
 		m *= 10U;
@@ -563,17 +563,11 @@ scalbndpd32(_Decimal32 x, int n)
 		if (UNLIKELY((b & 0x60000000U) == 0x60000000U)) {
 			/* 24th bit of mantissa is set, special expo
 			 * 11ee T (ee)eeeeee mmm... */
-			u = (b >> 20U) & 0x3fU;
-			u ^= (b >> 21U) & 0xc0U;
-			u ^= u + n;
 			/* move the top-2 bits out by 1 bit again */
 			u = (u & 0x3fU) | ((u & 0xc0U) << 1U);
 			u <<= 20U;
 		} else {
 			/* ee TTT (ee)eeeeee mmm... */
-			u = (b >> 20U) & 0x3fU;
-			u ^= (b >> 23U) & 0xc0U;
-			u ^= u + n;
 			/* move the top-2 bits out by 3 bits again */
 			u = (u & 0x3fU) | ((u & 0xc0U) << 3U);
 			u <<= 20U;
@@ -643,7 +637,7 @@ bid32tostr(char *restrict buf, size_t bsz, _Decimal32 x)
 			uint_least32_t digit;
 
 			digit = m % 10U, m /= 10U;
-			bcdm |= digit << 28U;
+			bcdm ^= digit << 28U;
 		}
 		m = bcdm;
 	}
@@ -667,7 +661,7 @@ dpd32tostr(char *restrict buf, size_t bsz, _Decimal32 x)
 
 		s = sign_dpd32(x);
 		/* get us a proper bcd version of M */
-		b = (m & 0xf00000U);
+		b = (m & 0x00f00000U);
 		b >>= 8U;
 		b |= unpack_declet((m >> 10U) & 0x3ffU);
 		b <<= 12U;
