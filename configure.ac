@@ -31,6 +31,8 @@ AC_PROG_CC([icc gcc cc])
 SXE_CHECK_CC([gnu11 gnu99])
 SXE_CHECK_CFLAGS
 AC_C_BIGENDIAN
+AC_PROG_RANLIB
+AC_CHECK_TOOLS([AR], [xiar ar], [false])
 
 ## check for yuck helper
 AX_CHECK_YUCK([with_included_yuck="yes"])
