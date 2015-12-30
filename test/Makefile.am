@@ -28,4 +28,17 @@ include clitoris.am
 AM_CLIT_LOG_FLAGS = -v --builddir $(top_builddir)/src
 TESTS_ENVIRONMENT = root=$(top_srcdir)
 
+
+check_PROGRAMS += pr-d32_01
+pr_d32_01_SOURCES = pr-d32_01.c
+pr_d32_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+pr_d32_01_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += pr-d32_01
+
+check_PROGRAMS += pr-d64_01
+pr_d64_01_SOURCES = pr-d64_01.c
+pr_d64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+pr_d64_01_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += pr-d64_01
+
 ## Makefile.am ends here
