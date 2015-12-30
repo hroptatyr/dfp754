@@ -563,11 +563,17 @@ scalbndpd32(_Decimal32 x, int n)
 		if (UNLIKELY((b & 0x60000000U) == 0x60000000U)) {
 			/* 24th bit of mantissa is set, special expo
 			 * 11ee T (ee)eeeeee mmm... */
+			u = (b >> 20U) & 0x3fU;
+			u ^= (b >> 21U) & 0xc0U;
+			u ^= u + n;
 			/* move the top-2 bits out by 1 bit again */
 			u = (u & 0x3fU) | ((u & 0xc0U) << 1U);
 			u <<= 20U;
 		} else {
 			/* ee TTT (ee)eeeeee mmm... */
+			u = (b >> 20U) & 0x3fU;
+			u ^= (b >> 23U) & 0xc0U;
+			u ^= u + n;
 			/* move the top-2 bits out by 3 bits again */
 			u = (u & 0x3fU) | ((u & 0xc0U) << 3U);
 			u <<= 20U;

@@ -582,11 +582,17 @@ scalbndpd64(_Decimal64 x, int n)
 			     0x6000000000000000ULL)) {
 			/* 24th bit of mantissa is set, special expo
 			 * 11ee T (ee)eeeeeeee mmm... */
+			u = (b >> 50U) & 0xffULL;
+			u ^= (b >> 51U) & 0x300ULL;
+			u ^= u + n;
 			/* move the top-2 bits out by 1 bit again */
 			u = (u & 0xffULL) ^ ((u & 0x300ULL) << 1U);
 			u <<= 50U;
 		} else {
 			/* ee TTT (ee)eeeeeeee mmm... */
+			u = (b >> 50U) & 0xffULL;
+			u ^= (b >> 53U) & 0x300ULL;
+			u ^= u + n;
 			/* move the top-2 bits out by 3 bits again */
 			u = (u & 0xffULL) ^ ((u & 0x300ULL) << 3U);
 			u <<= 50U;
