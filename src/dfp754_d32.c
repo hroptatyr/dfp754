@@ -206,7 +206,7 @@ pack_declet(unsigned int x)
 }
 
 static unsigned int
-unpack_declet32(unsigned int x)
+unpack_declet(unsigned int x)
 {
 /* go from dpd to bcd, here's the dpd box again: 
  * abc def 0ghi
@@ -651,7 +651,7 @@ bid32tostr(char *restrict buf, size_t bsz, _Decimal32 x)
 }
 #elif defined HAVE_DFP754_DPD_LITERALS
 static int
-dpd32tostr(char *restrict buf, size_t UNUSED(bsz), _Decimal32 x)
+dpd32tostr(char *restrict buf, size_t bsz, _Decimal32 x)
 {
 /* d32s look like s??eeeeee mm..23..mm
  * and the decimal is (-1 * s) * m * 10^(e - 101),
@@ -669,9 +669,9 @@ dpd32tostr(char *restrict buf, size_t UNUSED(bsz), _Decimal32 x)
 		/* get us a proper bcd version of M */
 		b = (m & 0xf00000U);
 		b >>= 8U;
-		b |= unpack_declet32((m >> 10U) & 0x3ffU);
+		b |= unpack_declet((m >> 10U) & 0x3ffU);
 		b <<= 12U;
-		b |= unpack_declet32((m >> 0U) & 0x3ffU);
+		b |= unpack_declet((m >> 0U) & 0x3ffU);
 		m = b;
 	} else {
 		/* no stinking signed 0s and m is in bcd form already */
