@@ -76,7 +76,7 @@ inline __attribute__((pure, const)) uint64_t bits64(_Decimal64 x);
 inline __attribute__((pure, const)) _Decimal64 bobs64(uint64_t u);
 inline __attribute__((pure, const)) int quantexpd64(_Decimal64 x);
 #if !defined HAVE_NAND64
-inline __attribute__((pure, const)) _Decimal32 nand64(char *__tagp);
+inline __attribute__((pure, const)) _Decimal64 nand64(char *__tagp);
 #endif	/* !HAVE_NAND64 */
 #if !defined HAVE_ISNAND64
 # define isnand64		__builtin_isnand64
