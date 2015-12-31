@@ -13,8 +13,8 @@ int
 main(void)
 {
 	_Decimal64 x[] = {
-		0.df, 1.df, 1.23df, 0.23df, 1.234df, 12.34df,
-		12.df, 100.df, 123.df,
+		0.dd, 1.dd, 1.23dd, 0.23dd, 1.234dd, 12.34dd,
+		12.dd, 100.dd, 123.dd,
 	};
 
 	for (size_t i = 0U; i < countof(x); i++) {
