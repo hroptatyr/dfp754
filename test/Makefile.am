@@ -41,6 +41,18 @@ pr_d64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 pr_d64_01_LDADD = $(top_builddir)/src/libdfp754.a
 TESTS += pr-d64_01
 
+check_PROGRAMS += rd-d32_01
+rd_d32_01_SOURCES = rd-d32_01.c
+rd_d32_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+rd_d32_01_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += rd-d32_01
+
+check_PROGRAMS += rd-d64_01
+rd_d64_01_SOURCES = rd-d64_01.c
+rd_d64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+rd_d64_01_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += rd-d64_01
+
 check_PROGRAMS += scalbnd32_01
 scalbnd32_01_SOURCES = scalbnd32_01.c
 scalbnd32_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
