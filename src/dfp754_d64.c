@@ -628,7 +628,7 @@ strtodpd64(const char *src, char **on)
 }
 #endif	/* HAVE_DFP754_BID_LITERALS || HAVE_DFP754_DPD_LITERALS */
 
-#if !defined HAVE_STRTOD64
+#if !defined HAVE_STRTOD64 || !defined HAVE_CLEAN_STRTOD64
 _Decimal64
 strtod64(const char *src, char **on)
 {
@@ -638,7 +638,7 @@ strtod64(const char *src, char **on)
 	return strtodpd64(src, on);
 # endif	 /* HAVE_DFP754_*_LITERALS */
 }
-#endif	/* !HAVE_STRTOD64 */
+#endif	/* !HAVE_STRTOD64 || !HAVE_CLEAN_STRTOD64 */
 
 
 #if defined HAVE_DFP754_BID_LITERALS

@@ -609,7 +609,7 @@ strtodpd32(const char *src, char **on)
 }
 #endif	/* HAVE_DFP754_BID_LITERALS || HAVE_DFP754_DPD_LITERALS */
 
-#if !defined HAVE_STRTOD32
+#if !defined HAVE_STRTOD32 || !defined HAVE_CLEAN_STRTOD32
 _Decimal32
 strtod32(const char *src, char **on)
 {
@@ -619,7 +619,7 @@ strtod32(const char *src, char **on)
 	return strtodpd32(src, on);
 # endif	 /* HAVE_DFP754_*_LITERALS */
 }
-#endif	/* !HAVE_STRTOD32 */
+#endif	/* !HAVE_STRTOD32 || !HAVE_CLEAN_STRTOD32 */
 
 #if defined HAVE_DFP754_BID_LITERALS
 static int
