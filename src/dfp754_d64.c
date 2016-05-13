@@ -383,6 +383,9 @@ strtobcd64(const char *src, char **on)
 	if (UNLIKELY(*sp == '-')) {
 		sign = 1;
 		sp++;
+	} else if (UNLIKELY(*sp == '+')) {
+		sign = 0;
+		sp++;
 	}
 	/* skip leading zeros innit? */
 	for (; *sp == '0'; sp++);
