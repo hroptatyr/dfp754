@@ -44,6 +44,8 @@
 #include <stdint.h>
 
 #define NAND32_U		(0x7c000000U)
+#define INFD32_U		(0x78000000U)
+#define MINFD32_U		(0xf8000000U)
 
 typedef struct {
 	uint_least32_t mant;
@@ -146,11 +148,19 @@ quantexpd32(_Decimal32 x)
 #endif	/* !HAVE_DFP754_*_LITERALS */
 
 #if !defined HAVE_NAND32
+# define NAND32		((union {uint32_t u; _Decimal32 x;}){NAND32_U}.x)
 inline __attribute__((pure, const)) _Decimal32
 nand32(char *__tagp __attribute__((unused)))
 {
-	return bobs32(NAND32_U);
+	return NAND32;
 }
 #endif	/* !HAVE_NAND32 */
+
+#if !defined INFD32
+# define INFD32		((union {uint32_t u; _Decimal32 x;}){INFD32_U}.x)
+#endif	/* !INFD32 */
+#if !defined MINFD32
+# define MINFD32	((union {uint32_t u; _Decimal32 x;}){MINFD32_U}.x)
+#endif	/* !INFD32 */
 
 #endif	/* INCLUDED_dfp754_d32_h_ */
