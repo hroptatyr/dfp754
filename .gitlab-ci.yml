@@ -8,9 +8,5 @@ build:
     - autoreconf -vfi
     - ./configure
     - make
-
-test:
-  stage: test
-  script:
     - make check
     - make distcheck
