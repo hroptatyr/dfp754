@@ -1,0 +1,54 @@
+language: c
+
+sudo: false
+
+os:
+  - linux
+
+compiler:
+  - gcc
+
+matrix:
+  include:
+    ## distcheck
+    - os: linux
+      compiler: gcc
+      env: CHECK="distcheck"
+    ## Ubuntu 14.04 Trusty (beta), sudo required!
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc
+      env: TRUSTY="yes" CHECK="normal"
+
+before_script:
+  - autoreconf -vfi
+
+script:
+  ./configure || { cat config.log; false; } &&
+      make clean all check distcheck
+
+## whitelist
+branches:
+  only:
+    - master
+    - next
+    - coverity-scan
+    - /^travis.*/
+    - /^tmp.*/
+
+notifications:
+  email:
+    - devel@fresse.org
+
+addons:
+  apt:
+    packages:
+  coverity_scan:
+    project:
+      name: "hroptatyr/dateutils"
+      description: "dateutils coverity scan"
+    notification_email: devel@fresse.org
+    build_command_prepend: "./configure"
+    build_command: "make all check"
+    branch_pattern: coverity-scan
