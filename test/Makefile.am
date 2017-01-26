@@ -33,13 +33,25 @@ check_PROGRAMS += pr-d32_01
 pr_d32_01_SOURCES = pr-d32_01.c
 pr_d32_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 pr_d32_01_LDADD = $(top_builddir)/src/libdfp754.a
-TESTS += pr-d32_01
+TESTS += pr-d32_01.clit
+
+check_PROGRAMS += pr-d32_02
+pr_d32_02_SOURCES = pr-d32_02.c
+pr_d32_02_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+pr_d32_02_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += pr-d32_02.clit
 
 check_PROGRAMS += pr-d64_01
 pr_d64_01_SOURCES = pr-d64_01.c
 pr_d64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 pr_d64_01_LDADD = $(top_builddir)/src/libdfp754.a
-TESTS += pr-d64_01
+TESTS += pr-d64_01.clit
+
+check_PROGRAMS += pr-d64_02
+pr_d64_02_SOURCES = pr-d64_02.c
+pr_d64_02_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+pr_d64_02_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += pr-d64_02.clit
 
 check_PROGRAMS += rd-d32_01
 rd_d32_01_SOURCES = rd-d32_01.c
@@ -57,24 +69,24 @@ check_PROGRAMS += scalbnd32_01
 scalbnd32_01_SOURCES = scalbnd32_01.c
 scalbnd32_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 scalbnd32_01_LDADD = $(top_builddir)/src/libdfp754.a
-TESTS += scalbnd32_01
+TESTS += scalbnd32_01.clit
 
 check_PROGRAMS += scalbnd64_01
 scalbnd64_01_SOURCES = scalbnd64_01.c
 scalbnd64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 scalbnd64_01_LDADD = $(top_builddir)/src/libdfp754.a
-TESTS += scalbnd64_01
+TESTS += scalbnd64_01.clit
 
 check_PROGRAMS += quantized32_01
 quantized32_01_SOURCES = quantized32_01.c
 quantized32_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 quantized32_01_LDADD = $(top_builddir)/src/libdfp754.a
-TESTS += quantized32_01
+TESTS += quantized32_01.clit
 
 check_PROGRAMS += quantized64_01
 quantized64_01_SOURCES = quantized64_01.c
 quantized64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 quantized64_01_LDADD = $(top_builddir)/src/libdfp754.a
-TESTS += quantized64_01
+TESTS += quantized64_01.clit
 
 ## Makefile.am ends here
