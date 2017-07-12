@@ -388,14 +388,15 @@ AC_DEFUN([_SXE_CHECK_DFP754_BUILTIN], [dnl
 	(void)X;
 ]])], [
 	sxe_cv_builtin_]fun[="yes"
+	AC_MSG_RESULT([${sxe_cv_builtin_]fun[}])
 	AC_DEFINE(AS_TR_CPP([HAVE_BUILTIN_]fun), [1],
 		[Whether __builtin_]fun[ works and can initialise globals])
 	$4
 ], [
 	sxe_cv_builtin_]fun[="no"
+	AC_MSG_RESULT([${sxe_cv_builtin_]fun[}])
 	$5
 ])
-	AC_MSG_RESULT([${sxe_cv_builtin_]fun[}])
 
 	CPPFLAGS="${save_CPPFLAGS}"
 	LDFLAGS="${save_LDFLAGS}"
@@ -404,6 +405,56 @@ AC_DEFUN([_SXE_CHECK_DFP754_BUILTIN], [dnl
 	popdef([typ])
 	popdef([arg])
 ])dnl _SXE_CHECK_DFP754_BUILTIN
+
+AC_DEFUN([_SXE_CHECK_DFP754_BUILTIN_BANG], [dnl
+	pushdef([fun], [$1])
+	pushdef([typ], [$2])
+	pushdef([bng], [$3])
+	pushdef([arg], m4_ifblank([$4], [()], [$4]))
+
+	save_CPPFLAGS="${CPPFLAGS}"
+	save_LDFLAGS="${LDFLAGS}"
+	CPPFLAGS="${CPPFLAGS} ${dfp754_CFLAGS}"
+	LDFLAGS="${LDFLAGS} ${dfp754_LIBS}"
+
+	AC_MSG_CHECKING([whether __builtin_]bng[can be used to mimic __builtin_]fun[])
+	AC_RUN_IFELSE([AC_LANG_PROGRAM([[
+#include <stdint.h>
+#include <stdio.h>
+#if defined HAVE_DFP754_H
+# include <dfp754.h>
+#endif
+#if defined HAVE_DFP_STDLIB_H
+# include <dfp/stdlib.h>
+#endif
+#if defined HAVE_DECIMAL_H
+# include <decimal.h>
+#endif
+]], [[
+	static ]typ[ X = (]typ[)__builtin_]bng[]arg[;
+	if (!is]fun[(X)) {
+		return 1;
+	}
+]])], [
+	sxe_cv_builtin_]bng[_for_]fun[="yes"
+	AC_MSG_RESULT([${sxe_cv_builtin_]bng[_for_]fun[}])
+	AC_DEFINE(AS_TR_CPP([HAVE_BUILTIN_]bng[_FOR_]fun), [1],
+		[Whether __builtin_]bng[ can be used to initialise ]typ[ globals])
+	$5
+], [
+	sxe_cv_builtin_]bng[_for_]fun[="no"
+	AC_MSG_RESULT([${sxe_cv_builtin_]bng[_for_]fun[}])
+	$6
+])
+
+	CPPFLAGS="${save_CPPFLAGS}"
+	LDFLAGS="${save_LDFLAGS}"
+
+	popdef([fun])
+	popdef([typ])
+	popdef([bng])
+	popdef([arg])
+])dnl _SXE_CHECK_DFP754_BUILTIN_BANG
 
 AC_DEFUN([_SXE_CHECK_DFP754_HEADERS], [dnl
 	AC_CHECK_HEADERS([dfp754.h])
@@ -440,10 +491,14 @@ AC_DEFUN([_SXE_CHECK_DFP754_SYMBOLS], [dnl
 ])dnl _SXE_CHECK_DFP754_SYMBOLS
 
 AC_DEFUN([_SXE_CHECK_DFP754_BUILTINS], [dnl
-	_SXE_CHECK_DFP754_BUILTIN([infd32], [_Decimal32])
-	_SXE_CHECK_DFP754_BUILTIN([infd64], [_Decimal64])
-	_SXE_CHECK_DFP754_BUILTIN([nand32], [_Decimal32], [("")])
-	_SXE_CHECK_DFP754_BUILTIN([nand64], [_Decimal64], [("")])
+	_SXE_CHECK_DFP754_BUILTIN([infd32], [_Decimal32], [], [:], [
+		_SXE_CHECK_DFP754_BUILTIN_BANG([infd32], [_Decimal32], [inf])])
+	_SXE_CHECK_DFP754_BUILTIN([infd64], [_Decimal64], [], [:], [
+		_SXE_CHECK_DFP754_BUILTIN_BANG([infd32], [_Decimal64], [inf])])
+	_SXE_CHECK_DFP754_BUILTIN([nand32], [_Decimal32], [("")], [:], [
+		_SXE_CHECK_DFP754_BUILTIN_BANG([nand32], [_Decimal32], [nan])])
+	_SXE_CHECK_DFP754_BUILTIN([nand64], [_Decimal64], [("")], [:], [
+		_SXE_CHECK_DFP754_BUILTIN_BANG([nand32], [_Decimal64], [nan])])
 ])dnl _SXE_CHECK_DFP754_BUILTINS
 
 AC_DEFUN([SXE_CHECK_DFP754], [dnl
