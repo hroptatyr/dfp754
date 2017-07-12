@@ -153,6 +153,21 @@ quantexpd32(_Decimal32 x)
 }
 #endif	/* !HAVE_DFP754_*_LITERALS */
 
+#if defined HAVE_BUILTIN_NAND32
+# define NAND32		__builtin_nand32("")
+#elif defined HAVE_BUILTIN_NAN_FOR_NAND32
+# define NAND32		((_Decimal32)__builtin_nan(""))
+#else
+# define NAND32		((union {uint32_t u; _Decimal32 x;}){NAND32_U}.x)
+#endif
+#if defined HAVE_BUILTIN_INFD32
+# define INFD32		__builtin_infd32()
+#elif defined HAVE_BUILTIN_INF_FOR_INFD32
+# define INFD32		((_Decimal32)__builtin_inf())
+#else
+# define INFD32		(((union {uint32_t u; _Decimal32 x;}){INFD32_U}).x)
+#endif
+
 #if !defined HAVE_NAND32
 inline __attribute__((pure, const)) _Decimal32
 nand32(char *__tagp __attribute__((unused)))
@@ -161,15 +176,12 @@ nand32(char *__tagp __attribute__((unused)))
 }
 #endif	/* !HAVE_NAND32 */
 
-#if defined HAVE_BUILTIN_NAND32
-# define NAND32		__builtin_nand32("")
-#else
-# define NAND32		((union {uint32_t u; _Decimal32 x;}){NAND32_U}.x)
-#endif
-#if defined HAVE_BUILTIN_INFD32
-# define INFD32		__builtin_infd32()
-#else
-# define INFD32		(((union {uint32_t u; _Decimal32 x;}){INFD32_U}).x)
-#endif
+#if !defined HAVE_INFD32
+inline __attribute__((pure, const)) _Decimal32
+infd32(void)
+{
+	return INFD32;
+}
+#endif	/* !HAVE_INFD32 */
 
 #endif	/* INCLUDED_dfp754_d32_h_ */
