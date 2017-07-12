@@ -153,6 +153,21 @@ quantexpd64(_Decimal64 x)
 }
 #endif	/* !HAVE_DFP754_*_LITERALS */
 
+#if defined HAVE_BUILTIN_NAND64
+# define NAND64		__builtin_nand64("")
+#elif defined HAVE_BUILTIN_NAN_FOR_NAND64
+# define NAND64		((_Decimal64)__builtin_nand64(""))
+#else
+# define NAND64		((union {uint64_t u; _Decimal64 x;}){NAND64_U}.x)
+#endif
+#if defined HAVE_BUILTIN_INFD64
+# define INFD64		__builtin_infd64()
+#elif defined HAVE_BUILTIN_INF_FOR_INFD64
+# define INFD64		((_Decimal64)__builtin_inf())
+#else
+# define INFD64		(((union {uint64_t u; _Decimal64 x;}){INFD64_U}).x)
+#endif
+
 #if !defined HAVE_NAND64
 inline __attribute__((pure, const)) _Decimal64
 nand64(char *__tagp __attribute__((unused)))
@@ -161,15 +176,12 @@ nand64(char *__tagp __attribute__((unused)))
 }
 #endif	/* !HAVE_NAND64 */
 
-#if defined HAVE_BUILTIN_NAND64
-# define NAND64		__builtin_nand64("")
-#else
-# define NAND64		((union {uint64_t u; _Decimal64 x;}){NAND64_U}.x)
-#endif
-#if defined HAVE_BUILTIN_INFD64
-# define INFD64		__builtin_infd64()
-#else
-# define INFD64		(((union {uint64_t u; _Decimal64 x;}){INFD64_U}).x)
-#endif
+#if !defined HAVE_INFD64
+inline __attribute__((pure, const)) _Decimal64
+infd64(void)
+{
+	return INFD64;
+}
+#endif	/* !HAVE_INFD64 */
 
 #endif	/* INCLUDED_dfp754_d64_h_ */
