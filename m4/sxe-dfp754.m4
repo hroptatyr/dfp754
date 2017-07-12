@@ -417,7 +417,7 @@ AC_DEFUN([_SXE_CHECK_DFP754_BUILTIN_BANG], [dnl
 	CPPFLAGS="${CPPFLAGS} ${dfp754_CFLAGS}"
 	LDFLAGS="${LDFLAGS} ${dfp754_LIBS}"
 
-	AC_MSG_CHECKING([whether __builtin_]bng[can be used to mimic __builtin_]fun[])
+	AC_MSG_CHECKING([whether __builtin_]bng[ can be used to mimic __builtin_]fun[])
 	AC_RUN_IFELSE([AC_LANG_PROGRAM([[
 #include <stdint.h>
 #include <stdio.h>
