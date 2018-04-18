@@ -77,6 +77,18 @@ scalbnd64_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
 scalbnd64_01_LDADD = $(top_builddir)/src/libdfp754.a
 TESTS += scalbnd64_01.clit
 
+check_PROGRAMS += scalbnd32_02
+scalbnd32_02_SOURCES = scalbnd32_02.c
+scalbnd32_02_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+scalbnd32_02_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += scalbnd32_02.clit
+
+check_PROGRAMS += scalbnd64_02
+scalbnd64_02_SOURCES = scalbnd64_02.c
+scalbnd64_02_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
+scalbnd64_02_LDADD = $(top_builddir)/src/libdfp754.a
+TESTS += scalbnd64_02.clit
+
 check_PROGRAMS += quantized32_01
 quantized32_01_SOURCES = quantized32_01.c
 quantized32_01_CPPFLAGS = $(AM_CPPFLAGS) $(dfp754_CFLAGS)
